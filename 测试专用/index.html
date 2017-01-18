@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试专用原生版</title>
+	</head>
+	<body>
+		<div>  
+			<span>根据id删除用户：</span>
+			<input type="text" name="studentId" id="studentId" placeholder="请输入id" value="" />
+			<input type="button" name="delUser" id="delUser" class="del" value="删除" /><br />
+			<span>根据用户id删除手机验证码：</span>
+			<input type="text" name="studentId" id="userId" placeholder="请输入用户id" value="" />
+			<input type="button" name="delCodes" id="delCodes" class="del" value="删除" /><br />
+		</div>
+		<script type="text/javascript">			
+			//获取的id
+			var studentId = document.getElementById("studentId");
+			var delUser = document.getElementById("delUser");
+			//获取的用户id
+			var userId  = document.getElementById("userId");
+			var delCodes = document.getElementById("delCodes");
+			//1.
+				if(window.XMLHttpRequest){
+					var ajax = new XMLHttpRequest();				
+				}
+			delUser.addEventListener("click",function(){
+				makeRequest('http://192.168.0.138:8080/console/deleteStudent.json',studentId);
+			});
+			
+			delCodes.addEventListener("click",function(){
+				console.log('a');
+				makeRequest('http://192.168.0.138:8080/console/deleteSMS.json',userId);
+			})
+			function makeRequest(url,userName){
+				ajax.onreadystatechange= alertContents;
+				var time=new Date().getTime();
+				var studentId=userName.value;
+				ajax.open('POST',url);
+				ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+				ajax.send('studentId='+encodeURIComponent(studentId));
+			}
+			
+			function alertContents(){  
+				if(ajax.readyState === 4){
+					if(ajax.status === 200){
+						var response = JSON.parse(ajax.responseText);
+						if(response.code === 1){
+							alert(response.message);							
+						}else if(response.code ===0){
+							alert(response.message);
+						};
+					}else{
+						alert('There was a problem.');
+					}
+				}  
+			}
+		</script>
+	</body>
+</html>

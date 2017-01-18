@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试专用axios版</title>
+	</head>
+	<body>
+		<div>
+			<span>根据id删除用户：</span>
+			<input type="text" name="studentId" id="studentId" placeholder="请输入id" value="" />
+			<input type="button" name="delUser" id="delUser" value="删除" /><br />
+			<span>根据用户id删除手机验证码：</span>
+			<input type="text" name="studentId" id="userId" placeholder="请输入用户id" value="" />
+			<input type="button" name="delCodes" id="delCodes" value="删除" /><br />
+		</div>
+		<script src="js/axios.min.js"></script>
+		<script type="text/javascript">
+		var delUser = document.getElementById("delUser");
+		var delCodes = document.getElementById("delCodes");
+		delUser.addEventListener("click",function(){
+			var studentId = document.getElementById("studentId").value;
+			alert(studentId);
+			axios.post('http://192.168.0.138:8080/console/deleteStudent.json',
+			{},
+			{
+				params: { studentId: studentId }
+			}
+			)
+			.then(function(response){
+				if(response.code === 1){
+					alert(response.message);
+				}
+			})
+			.catch(function(error){
+				alert('There was a problem.');
+			});
+		})
+		
+		delCodes.addEventListener("click",function(){
+			var studentId = document.getElementById("userId").value;
+			alert(studentId);
+			axios.post('http://192.168.0.138:8080/console/deleteSMS.json?studentId'+studentId,)
+			.then(function(response){
+				if(response.code === 1){
+					alert(response.message);
+				}
+			})
+			.catch(function(error){
+				alert('There was a problem.');
+			});
+		})
+			
+		</script>
+	</body>
+</html>

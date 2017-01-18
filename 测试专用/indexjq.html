@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试专用jq版</title>
+	</head>
+	<body>
+		<div>
+			<span>根据id删除用户:</span>
+			<input type="text" name="studentId" id="studentId" placeholder="请输入id" value="" />
+			<input type="button" name="delUser" id="delUser" value="删除" /><br />
+			<span>根据用户id删除手机验证码：</span>
+			<input type="text" name="studentId" id="userId" placeholder="请输入用户id" value="" />
+			<input type="button" name="delCodes" id="delCodes" value="删除" /><br />
+		</div>
+		<script src="js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$("#delUser").on("click",function(){
+				var studentId = $("#studentId").val();
+				$.ajax({
+					type:'post',
+					url:'http://192.168.0.138:8080/console/deleteStudent.json',
+					data:{studentId:studentId},
+					dataType:'JSONP',
+					success:function(data){
+						if(data.code === 1){
+							alert(data.message);
+						}else if(data.code === 0){
+							alert(data.message);
+						};;
+					}
+				});
+				alert(studentId);
+			})
+			
+			$("#delCodes").on("click",function(){
+				var userId =$("#userId").val();
+				$.ajax({
+					type:"post",
+					url:"http://192.168.0.138:8080/console/deleteSMS.json",
+					dataType:'JSONP',
+					data:{studentId:userId},
+					success:function(data){
+						if(data.code === 1){
+							alert(data.message);
+						}else if(data.code === 0){
+							alert(data.message);
+						};
+					}
+				});
+				alert(userId);
+			})
+		</script>	
+	</body>
+</html>
